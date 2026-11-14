@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ AURA BATTLES ⚡ - Ultimate Gaming Server</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        discord: {
+                            bg: '#131416',
+                            sidebar: '#1e1f22',
+                            chat: '#2b2d31',
+                            accent: '#9333EA',
+                            gold: '#FEE75C'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #1e1f22; }
+        ::-webkit-scrollbar-thumb { background: #3f4147; border-radius: 3px; }
+        .glow-effect { box-shadow: 0 0 35px rgba(147, 51, 234, 0.45); }
+        .gold-glow { box-shadow: 0 0 30px rgba(254, 231, 92, 0.35); }
+        .glass-card { background: rgba(30, 31, 34, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        #aura-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .content-layer { position: relative; z-index: 10; }
+    </style>
+</head>
+<body class="bg-[#0b0c0e] text-[#dbdee1] min-h-screen flex flex-col selection:bg-purple-600 selection:text-white">
+
+    <!-- Canvas Hiệu Ứng Hạt Aura Nền -->
+    <canvas id="aura-canvas"></canvas>
+
+    <div class="content-layer flex flex-col min-h-screen">
+        <!-- Navbar / Header -->
+        <header class="glass-card sticky top-0 z-50 px-6 py-3.5 flex items-center justify-between border-b border-[#3f4147]/40">
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-purple-600 to-amber-400 p-0.5 shadow-lg gold-glow">
+                    <div class="w-full h-full bg-[#1e1f22] rounded-[14px] flex items-center justify-center font-bold text-amber-300 text-lg">
+                        ⚡
+                    </div>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base text-white tracking-wide flex items-center gap-2">
+                        ⚡ AURA BATTLES ⚡ 
+                        <span class="text-[11px] bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-full border border-amber-500/30 font-semibold shadow-inner">🏴‍☠️ Bá Khí</span>
+                    </h1>
+                    <p class="text-xs text-zinc-400">Hoạt động: 17g – 22h • Thành lập: Tháng 6/2026[cite: 2]</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="hidden md:flex items-center space-x-2 bg-purple-500/10 border border-purple-500/20 px-3 py-1.5 rounded-full text-xs font-medium text-purple-300">
+                    <i class="fa-solid fa-wifi text-emerald-400 animate-pulse"></i>
+                    <span>Ping: 12ms (Optimal)</span>
+                </div>
+                <div id="onlineBadge" class="hidden sm:flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 rounded-full text-xs font-medium text-emerald-400">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span id="onlineCountText">Đang tải...</span>
+                </div>
+                <a id="joinBtnTop" href="https://discord.gg/" target="_blank" class="bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-indigo-500/30 flex items-center gap-2">
+                    <i class="fa-brands fa-discord text-base"></i> Tham gia ngay
+                </a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="relative py-16 px-6 overflow-hidden bg-gradient-to-b from-purple-950/30 via-transparent to-transparent border-b border-[#3f4147]/30">
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                <span class="text-xs uppercase tracking-widest bg-purple-500/20 text-purple-300 px-4 py-1.5 rounded-full font-extrabold border border-purple-500/30 shadow-lg">Cộng đồng Gaming & Aura Hàng Đầu</span>
+                <h2 class="text-3xl md:text-6xl font-extrabold text-white mt-6 mb-4 tracking-tight">
+                    Săn Aura Đỉnh Cao Cùng <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-purple-400 to-cyan-400">AURA BATTLES</span>
+                </h2>
+                <p class="text-zinc-400 max-w-2xl mx-auto text-sm md:text-base mb-8 leading-relaxed">
+                    Nơi hội tụ các game thủ đích thực, tranh tài PvP nảy lửa và giao lưu cùng dàn bot thông minh mỗi khung giờ vàng từ 17h đến 22h hằng ngày[cite: 2]!
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a id="joinBtnHero" href="https://discord.gg/" target="_blank" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold px-8 py-3.5 rounded-2xl shadow-2xl glow-effect transition-all flex items-center gap-3 transform hover:-translate-y-0.5">
+                        <i class="fa-brands fa-discord text-xl"></i> Vào Server Discord Ngay
+                    </a>
+                    <a href="#channelsViewer" class="glass-card hover:bg-[#2b2d31] text-white font-semibold px-6 py-3.5 rounded-2xl transition-all flex items-center gap-2 border border-[#3f4147]">
+                        <i class="fa-solid fa-compass text-purple-400"></i> Khám phá 7 Danh Mục Kênh
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Discord Interactive Section -->
+        <main id="channelsViewer" class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+            
+            <!-- Cột 1 & 2: Cây Kênh Đầy Đủ 7 Danh Mục -->
+            <div class="glass-card rounded-2xl flex flex-col h-[650px] overflow-hidden shadow-2xl">
+                <div class="p-4 border-b border-[#3f4147]/50 font-bold text-white text-xs tracking-wider flex items-center justify-between bg-[#131416]/80">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-server text-purple-400"></i> 7 DANH MỤC KÊNH</span>
+                    <span class="text-[10px] text-zinc-400">Aura Battles</span>
+                </div>
+                <div class="flex-1 overflow-y-auto p-3 space-y-4 text-xs font-medium text-[#949ba4]">
+                    
+                    <!-- 1. INFORMATION -->
+                    <div>
+                        <div class="uppercase text-[10px] tracking-wider font-bold text-zinc-500 mb-1 px-2">📌 1. INFORMATION</div>
+                        <div class="space-y-0.5">
+                            <button onclick="switchChannel('Luật & Điều khoản', '📜・luật-điều-khoản', 'Quy định server và điều khoản chung bắt buộc thành viên phải tuân thủ.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>📜</span> <span class="truncate">luật-điều-khoản</span>
+                            </button>
+                            <button onclick="switchChannel('Chào mừng', '🎉・chào-mừng', 'Kênh Bot gửi lời chào mừng nồng nhiệt đến thành viên mới gia nhập.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🎉</span> <span class="truncate">chào-mừng</span>
+                            </button>
+                            <button onclick="switchChannel('Tạm biệt', '🕊️・hẹn-gặp-lại', 'Kênh thông báo thành viên rời server.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🕊️</span> <span class="truncate">hẹn-gặp-lại</span>
+                            </button>
+                            <button onclick="switchChannel('Vai trò', '👑・vai-trò', 'Kênh tự chọn role / Reaction roles nhận vai trò cá nhân.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>👑</span> <span class="truncate">vai-trò</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. CHAT & COMMUNITY -->
+                    <div>
+                        <div class="uppercase text-[10px] tracking-wider font-bold text-zinc-500 mb-1 px-2">💬 2. CHAT & COMMUNITY</div>
+                        <div class="space-y-0.5">
+                            <button onclick="switchChannel('Chat chung', '💬・chat-chung', 'Nơi mọi người trò chuyện, giao lưu hàng ngày cùng cộng đồng.')" class="channel-btn active-chan w-full text-left px-2.5 py-1.5 rounded-lg bg-[#3f4147]/80 text-white flex items-center gap-2 transition-colors">
+                                <span>💬</span> <span class="truncate">chat-chung</span>
+                            </button>
+                            <button onclick="switchChannel('Chat game', '🎮・chat-game-vv', 'Kênh bàn luận về game, rủ rê chơi chung các tựa game hot.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🎮</span> <span class="truncate">chat-game-vv</span>
+                            </button>
+                            <button onclick="switchChannel('Boost Server', '🚀・boost-server', 'Ghi nhận và tri ân những nhà tài trợ đã Boost Server.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🚀</span> <span class="truncate">boost-server</span>
+                            </button>
+                            <button onclick="switchChannel('Bot Command', '🤖・bot-command', 'Kênh tổng hợp lệnh bot cơ bản và vọc vạch tính năng.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🤖</span> <span class="truncate">bot-command</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. SHOP & DỊCH VỤ -->
+                    <div>
+                        <div class="uppercase text-[10px] tracking-wider font-bold text-zinc-500 mb-1 px-2">💎 3. SHOP & DỊCH VỤ</div>
+                        <div class="space-y-0.5">
+                            <button onclick="switchChannel('Quà TikTok', '🎁・quà-tiktok', 'Thông tin sự kiện / quà tặng hấp dẫn từ kênh TikTok.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🎁</span> <span class="truncate">quà-tiktok</span>
+                            </button>
+                            <button onclick="switchChannel('Robux', '🪙・robux', 'Bảng giá & thông tin dịch vụ Robux uy tín, nhanh chóng.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🪙</span> <span class="truncate">robux</span>
+                            </button>
+                            <button onclick="switchChannel('Giá Donate', '💳・giá-donate', 'Các hình thức ủng hộ / donate giúp duy trì server.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>💳</span> <span class="truncate">giá-donate</span>
+                            </button>
+                            <button onclick="switchChannel('Aim Hack', '🎯・aim-hack', 'Kênh dịch vụ / hỗ trợ liên quan.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🎯</span> <span class="truncate">aim-hack</span>
+                            </button>
+                            <button onclick="switchChannel('Verify Robux', '🔑・verify-robux', 'Kênh xác thực giao dịch Robux an toàn.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🔑</span> <span class="truncate">verify-robux</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4. BOT LAB & AI -->
+                    <div>
+                        <div class="uppercase text-[10px] tracking-wider font-bold text-zinc-500 mb-1 px-2">🧪 4. BOT LAB & AI</div>
+                        <div class="space-y-0.5">
+                            <button onclick="switchChannel('Ask AI', '🤖・ask-ai', 'Trò chuyện, đặt câu hỏi trực tiếp cùng trợ lý AI thông minh.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🤖</span> <span class="truncate">ask-ai</span>
+                            </button>
+                            <button onclick="switchChannel('Thử nghiệm Bot', '🧪・thử-nghiệm-bot', 'Kênh tự do test lệnh bot, vọc vạch tính năng mới.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🧪</span> <span class="truncate">thử-nghiệm-bot</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 5. MINIGAMES -->
+                    <div>
+                        <div class="uppercase text-[10px] tracking-wider font-bold text-zinc-500 mb-1 px-2">🎮 5. MINIGAMES</div>
+                        <div class="space-y-0.5">
+                            <button onclick="switchChannel('Neko Bot', '🐱・neko-bot', 'Kênh giải trí tương tác cùng Neko Bot dễ thương.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🐱</span> <span class="truncate">neko-bot</span>
+                            </button>
+                            <button onclick="switchChannel('OwO Bot', '🦉・owo-bot', 'Kênh cày cuốc, săn pet cùng OwO Bot cực cuốn.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🦉</span> <span class="truncate">owo-bot</span>
+                            </button>
+                            <button onclick="switchChannel('Nối Từ', '🔤・nối-từ', 'Kênh chơi game Nối từ thư giãn cùng mọi người.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🔤</span> <span class="truncate">nối-từ</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 6. PARTNERSHIP -->
+                    <div>
+                        <div class="uppercase text-[10px] tracking-wider font-bold text-zinc-500 mb-1 px-2">🤝 6. PARTNERSHIP</div>
+                        <div class="space-y-0.5">
+                            <button onclick="switchChannel('Hợp tác', '🤝・hợp-tác', 'Kênh đăng bài quảng bá Partner liên kết giữa các server.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🤝</span> <span class="truncate">hợp-tác</span>
+                            </button>
+                            <button onclick="switchChannel('VIP Partner', '⭐・vip-partner', 'Kênh độc quyền dành riêng cho các Partner lớn.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>⭐</span> <span class="truncate">vip-partner</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 7. VOICE CHANNELS -->
+                    <div>
+                        <div class="uppercase text-[10px] tracking-wider font-bold text-zinc-500 mb-1 px-2">🔊 7. VOICE CHANNELS</div>
+                        <div class="space-y-0.5">
+                            <button onclick="switchChannel('Music Chill', '🎵・music-chill', 'Phòng voice nghe nhạc thư giãn cùng anh em.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🎵</span> <span class="truncate">music-chill</span>
+                            </button>
+                            <button onclick="switchChannel('Game Zone', '🎮・game-zone', 'Phòng voice tập trung chơi game cùng cạ cứng.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>🎮</span> <span class="truncate">game-zone</span>
+                            </button>
+                            <button onclick="switchChannel('AFK Room', '💤・afk-room', 'Phòng chờ / treo máy yên tĩnh.')" class="channel-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-[#35373C] hover:text-[#dbdee1] flex items-center gap-2 transition-colors">
+                                <span>💤</span> <span class="truncate">afk-room</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Cột 3: Khung Xem Trước Kênh (Channel Preview Box) -->
+            <div class="glass-card rounded-2xl flex flex-col h-[650px] overflow-hidden shadow-2xl lg:col-span-2">
+                <div class="p-4 border-b border-[#3f4147]/50 flex items-center justify-between bg-[#131416]/80">
+                    <div class="flex items-center gap-2">
+                        <span id="currentChannelIcon" class="text-lg text-amber-400">💬</span>
+                        <h3 id="currentChannelName" class="font-bold text-white text-sm">💬・chat-chung</h3>
+                    </div>
+                    <span class="text-xs text-zinc-300 bg-[#1e1f22] px-3 py-1 rounded-lg border border-[#3f4147]" id="channelDesc">Nơi mọi người trò chuyện, giao lưu hàng ngày cùng cộng đồng.</span>
+                </div>
+                
+                <!-- Vùng hiển thị tin nhắn mô phỏng -->
+                <div class="flex-1 p-5 overflow-y-auto space-y-5 text-sm" id="chatMessagesBox">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center font-bold text-black text-base shadow-md flex-shrink-0">
+                            👑
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-amber-400">Zin</span>
+                                <span class="bg-amber-500 text-black text-[10px] font-black px-1.5 py-0.5 rounded shadow">MASTER</span>
+                                <span class="text-[10px] text-zinc-400">Hôm nay lúc 17:00</span>
+                            </div>
+                            <p class="text-zinc-200 mt-1.5 leading-relaxed">Chào mừng anh em đến với ⚡ AURA BATTLES ⚡! Server hoạt động từ 17h đến 22h mỗi ngày, nhớ vào điểm danh nhận streak nhé! 🔥</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-10 h-10 rounded-2xl bg-purple-600/30 border border-purple-500/50 flex items-center justify-center font-bold text-purple-300 text-base shadow-md flex-shrink-0">
+                            🤖
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-purple-400">StreakBot</span>
+                                <span class="bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">APP</span>
+                                <span class="text-[10px] text-zinc-400">Hôm nay lúc 17:05</span>
+                            </div>
+                            <div class="bg-[#1e1f22] p-3.5 rounded-2xl border border-[#3f4147]/80 mt-1.5 space-y-1 shadow-inner">
+                                <p class="text-xs font-bold text-emerald-400">✅ • Streak đã được cập nhật thành công</p>
+                                <p class="text-xs text-zinc-300">@Zin • 🔥 Chuỗi x42 ngày liên tục đỉnh cao!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Khung nhập giả lập -->
+                <div class="p-4 bg-[#131416]/80 border-t border-[#3f4147]/50">
+                    <div class="bg-[#2b2d31] rounded-xl px-4 py-3 flex items-center justify-between text-zinc-400 text-xs border border-[#3f4147]/40">
+                        <span>Nhắn tin vào kênh (hoặc tham gia Discord để trò chuyện thực tế)...</span>
+                        <i class="fa-solid fa-paper-plane text-purple-400"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột 4: Danh Sách Thành Viên Trực Tuyến & Lọc Role (Live Widget) -->
+            <div class="glass-card rounded-2xl flex flex-col h-[650px] overflow-hidden shadow-2xl">
+                <div class="p-4 border-b border-[#3f4147]/50 flex items-center justify-between bg-[#131416]/80">
+                    <span class="font-bold text-white text-xs tracking-wider flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> THÀNH VIÊN TRỰC TUYẾN
+                    </span>
+                    <span id="memberCountBadge" class="text-xs bg-[#2b2d31] px-2.5 py-1 rounded-md text-zinc-300 font-semibold border border-[#3f4147]">0 online</span>
+                </div>
+                
+                <!-- Bộ lọc Role tương tác -->
+                <div class="p-2.5 bg-[#17181b] border-b border-[#3f4147]/40 flex gap-1.5 overflow-x-auto text-[11px]">
+                    <button onclick="filterRole('all')" class="role-filter-btn px-3 py-1 rounded-lg bg-purple-600 text-white font-bold whitespace-nowrap transition-all shadow">Tất cả</button>
+                    <button onclick="filterRole('Master')" class="role-filter-btn px-3 py-1 rounded-lg bg-[#2b2d31] text-amber-400 font-bold whitespace-nowrap transition-all hover:bg-[#35373C]">Master</button>
+                    <button onclick="filterRole('Bot')" class="role-filter-btn px-3 py-1 rounded-lg bg-[#2b2d31] text-purple-400 font-bold whitespace-nowrap transition-all hover:bg-[#35373C]">Bot</button>
+                </div>
+
+                <!-- Danh sách thành viên lấy từ Widget API -->
+                <div id="membersListContainer" class="flex-1 overflow-y-auto p-3 space-y-2">
+                    <div class="flex items-center space-x-3 p-2.5 rounded-xl hover:bg-[#35373C]/60 transition-colors">
+                        <div class="relative">
+                            <div class="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center font-bold text-black text-xs shadow">Z</div>
+                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-[#1e1f22] rounded-full"></span>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-amber-400 flex items-center gap-1">Zin 👑 <span class="bg-amber-500 text-black text-[9px] font-black px-1 rounded">MASTER</span></div>
+                            <div class="text-[10px] text-zinc-400">Đang chơi Roblox</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-3 p-2.5 rounded-xl hover:bg-[#35373C]/60 transition-colors">
+                        <div class="relative">
+                            <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-white text-xs shadow">DK</div>
+                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-[#1e1f22] rounded-full"></span>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-amber-400 flex items-center gap-1">dang khoa <span class="bg-amber-500 text-black text-[9px] font-black px-1 rounded">MASTER</span></div>
+                            <div class="text-[10px] text-zinc-400">Chuỗi x5 ngày</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-3 p-2.5 rounded-xl hover:bg-[#35373C]/60 transition-colors">
+                        <div class="relative">
+                            <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center font-bold text-white text-xs shadow">SB</div>
+                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-[#1e1f22] rounded-full"></span>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-purple-400 flex items-center gap-1">StreakBot <span class="bg-purple-500/25 text-purple-300 text-[9px] font-bold px-1.5 py-0.5 rounded ml-1">BOT</span></div>
+                            <div class="text-[10px] text-zinc-400">Hỗ trợ tự động</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer Thông Tin Server -->
+        <footer class="glass-card border-t border-[#3f4147]/50 py-10 px-6 mt-16 text-center text-xs text-zinc-400">
+            <div class="max-w-4xl mx-auto space-y-3">
+                <p class="font-bold text-white text-sm tracking-wide">⚡ AURA BATTLES ⚡ — Cộng đồng game thủ & Săn Aura đỉnh cao[cite: 1, 2]</p>
+                <p>Server hoạt động sôi nổi từ <span class="text-amber-400 font-bold">17g đến 22h</span> hằng ngày. Tham gia ngay để cùng 'bá khí' với anh em![cite: 2]</p>
+                <p class="text-[10px] text-zinc-500 pt-2">© 2026 Aura Battles Server. Ultimate Cyberpunk Edition.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript Hiệu Ứng Aura Canvas & Widget API -->
+    <script>
+        const SERVER_ID = "1513016012251988129"; // ID server thực tế từ Discord[cite: 4]
+        let cachedMembers = [];
+
+        // Hiệu ứng hạt năng lượng Aura bay lơ lửng nền
+        const canvas = document.getElementById('aura-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for(let i = 0; i < 45; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                color: Math.random() > 0.5 ? 'rgba(147, 51, 234, 0.4)' : 'rgba(254, 231, 92, 0.3)',
+                vx: (Math.random() - 0.5) * 0.6,
+                vy: (Math.random() - 0.5) * 0.6
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = p.color;
+                ctx.fill();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Chuyển kênh xem trước
+        function switchChannel(name, channelTag, desc) {
+            document.getElementById('currentChannelName').innerText = channelTag;
+            document.getElementById('channelDesc').innerText = desc;
+            
+            document.querySelectorAll('.channel-btn').forEach(btn => btn.classList.remove('bg-[#3f4147]/80', 'text-white'));
+            event.currentTarget.classList.add('bg-[#3f4147]/80', 'text-white');
+        }
+
+        // Tải dữ liệu thật từ Discord Widget API
+        async function fetchDiscordWidget() {
+            try {
+                const response = await fetch(`https://discord.com/api/guilds/${SERVER_ID}/widget.json`);
+                if (!response.ok) throw new Error('Không thể kết nối Discord API');
+                const data = await response.json();
+
+                if (data.presence_count) {
+                    document.getElementById('onlineCountText').innerText = `${data.presence_count} Trực tuyến`;
+                    document.getElementById('memberCountBadge').innerText = `${data.presence_count} online`;
+                }
+
+                if (data.instant_invite) {
+                    document.getElementById('joinBtnTop').href = data.instant_invite;
+                    document.getElementById('joinBtnHero').href = data.instant_invite;
+                }
+
+                if (data.members && data.members.length > 0) {
+                    cachedMembers = data.members;
+                    renderMembers(cachedMembers);
+                }
+            } catch (error) {
+                console.log("Đang chạy chế độ hiển thị tiêu chuẩn.");
+            }
+        }
+
+        // Hiển thị danh sách thành viên
+        function renderMembers(members) {
+            const container = document.getElementById('membersListContainer');
+            container.innerHTML = '';
+
+            members.forEach(m => {
+                let statusColor = 'bg-zinc-500';
+                if(m.status === 'online') statusColor = 'bg-emerald-500';
+                if(m.status === 'idle') statusColor = 'bg-amber-500';
+                if(m.status === 'dnd') statusColor = 'bg-rose-500';
+
+                let roleBadge = '';
+                let nameColor = 'text-zinc-200';
+                if(m.username.toLowerCase().includes('zin') || m.username.toLowerCase().includes('khoa')) {
+                    roleBadge = '<span class="bg-amber-500 text-black text-[9px] font-black px-1.5 py-0.5 rounded ml-1 shadow">MASTER</span>';
+                    nameColor = 'text-amber-400 font-bold';
+                } else if(m.bot) {
+                    roleBadge = '<span class="bg-purple-500/25 text-purple-300 text-[9px] font-bold px-1.5 py-0.5 rounded ml-1">BOT</span>';
+                    nameColor = 'text-purple-400 font-bold';
+                }
+
+                let gameText = m.game ? m.game.name : (m.bot ? 'Hệ thống tự động' : 'Đang hoạt động');
+
+                const html = `
+                    <div class="flex items-center space-x-3 p-2.5 rounded-xl hover:bg-[#35373C]/60 transition-colors">
+                        <div class="relative">
+                            <img src="${m.avatar_url}" alt="${m.username}" class="w-10 h-10 rounded-full object-cover shadow" onerror="this.src='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f464.png'">
+                            <span class="absolute bottom-0 right-0 w-3 h-3 ${statusColor} border-2 border-[#1e1f22] rounded-full"></span>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="text-xs ${nameColor} flex items-center truncate">${m.username} ${roleBadge}</div>
+                            <div class="text-[10px] text-zinc-400 truncate">${gameText}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+
+        // Bộ lọc vai trò
+        function filterRole(role) {
+            document.querySelectorAll('.role-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-purple-600', 'text-white');
+                btn.classList.add('bg-[#2b2d31]');
+            });
+            event.target.classList.remove('bg-[#2b2d31]');
+            event.target.classList.add('bg-purple-600', 'text-white');
+
+            if(role === 'all') {
+                renderMembers(cachedMembers.length ? cachedMembers : getDefaultMockMembers());
+            } else if(role === 'Master') {
+                const filtered = cachedMembers.filter(m => m.username.toLowerCase().includes('zin') || m.username.toLowerCase().includes('khoa'));
+                renderMembers(filtered.length ? filtered : [{username: 'Zin', avatar_url: '', status: 'online', game: {name: 'Roblox'}}]);
+            } else if(role === 'Bot') {
+                const filtered = cachedMembers.filter(m => m.bot);
+                renderMembers(filtered.length ? filtered : [{username: 'StreakBot', avatar_url: '', status: 'online', bot: true}]);
+            }
+        }
+
+        function getDefaultMockMembers() {
+            return [
+                {username: 'Zin', avatar_url: '', status: 'online', game: {name: 'Roblox'}},
+                {username: 'dang khoa', avatar_url: '', status: 'online', game: {name: 'Aura Battles'}},
+                {username: 'StreakBot', avatar_url: '', status: 'online', bot: true}
+            ];
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchDiscordWidget();
+            setInterval(fetchDiscordWidget, 30000);
+        });
+    </script>
+</body>
+</html>
